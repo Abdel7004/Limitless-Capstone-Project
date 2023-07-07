@@ -9,11 +9,11 @@ URL :
 
 ## Wire Frames/ERD
 
-![Home Page](https://imgur.com/a/hLWtrEV)
+![Home Page](https://imgur.com/a/hLWtrEV.png)
 
 ![Search Page](https://i.imgur.com/dVn74nZ.png)
 
-![ERD](https://imgur.com/a/2X1QPZ7)
+![ERD](https://imgur.com/a/2X1QPZ7.png)
 
 
 ## User Stories

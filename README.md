@@ -15,6 +15,8 @@ URL :
 
 ![ERD](https://i.imgur.com/mbSFxG2.png)
 
+![ERD](https://i.imgur.com/Y9RB8Mg.png)
+
 
 ## User Stories
 

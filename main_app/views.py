@@ -1,9 +1,14 @@
+from django.urls import reverse
 from django.shortcuts import render
 from django.views import View # <- View class to handle requests
 from django.http import HttpResponse # <- a class to handle sending a type of response
 #...
 from django.views.generic.base import TemplateView
-
+# import models
+from .models import Workout
+# This will import the class we are extending 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView
 
 # Create your views here.
 
@@ -15,24 +20,44 @@ class Home(TemplateView):
 class About(TemplateView):
     template_name = "about.html"
 
- #adds artist class for mock database data
-class Workout:
-    def __init__(self, name, image, bio):
-        self.name = name
-        self.image = image
-        self.bio = bio
-
-
-workouts = [
-  Workout("Lat Pulldown", "https://i.imgur.com/G4oYdPp.jpg", "The lat pulldown is a popular exercise that targets the muscles in the back and helps to improve upper body strength and posture."),
-  Workout("Bench Press", "https://i.imgur.com/zYy7CFJ.jpg", "The bench press is a widely used exercise that primarily targets the muscles in the chest, shoulders, and triceps. It is effective for building upper body strength and developing a well-rounded physique."),
-  Workout("Deadlift", "https://i.imgur.com/WyMiH8S.jpg", "The deadlift is a powerful compound exercise that engages multiple muscle groups, including the back, glutes, hamstrings, and core. It is known for building overall strength and promoting functional movement patterns."),
-]
-
 class WorkoutList(TemplateView):
     template_name = "workout_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["workouts"] = workouts # this is where we add the key into our context object for the view to use
+        # to get the query parameter we have to acccess it in the request.GET dictionary object        
+        name = self.request.GET.get("name")
+        # If a query exists we will filter by name 
+        if name != None:
+            # .filter is the sql WHERE statement and name__icontains is doing a search for any name that contains the query param
+            context["workouts"] = Workout.objects.filter(name__icontains=name)
+            # We add a header context that includes the search param
+            context["header"] = f"Searching for {name}"
+        else:
+            context["workouts"] = Workout.objects.all()
+            # default header for not searching 
+            context["header"] = "Best Workouts"
         return context
+    
+class WorkoutCreate(CreateView):
+    model = Workout
+    fields = ['name', 'img', 'description']
+    template_name = "workout_create.html"
+    def get_success_url(self):
+        return reverse('workout_detail', kwargs={'pk': self.object.pk})
+
+class WorkoutDetail(DetailView):
+    model = Workout
+    template_name = "workout_detail.html"
+
+class WorkoutUpdate(UpdateView):
+    model = Workout
+    fields = ['name', 'img', 'description']
+    template_name = "workout_update.html"
+    def get_success_url(self):
+        return reverse('workout_detail', kwargs={'pk': self.object.pk})
+
+class WorkoutDelete(DeleteView):
+    model = Workout
+    template_name = "workout_delete_confirmation.html"
+    success_url = "/workouts/"

@@ -1,31 +1,36 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% comment %} for head title tags and helping us with SEO {% endcomment %}
-{% block title %}Workout{% endblock  %}
+<h1 class="title pt-5">{{header}}</h1>
 
-{% block content %}
-
-<h1 class="title pt-5">Trending Workouts</h1>
+<form class="mb-5" method="get">
+  <div class="field has-addons">
+    <div class="control">
+      <!--  Our input will search by name of workout  -->
+      <input class="input" type="text" name="name" placeholder="name" />
+    </div>
+    <div class="control">
+      <input class="button is-success" type="submit" value="Search" />
+    </div>
+  </div>
+  <!--  This anchor tag will redirect back to workout list without a query param -->
+  <a class="button is-dark" href="{% url 'workout_list' %}">Clear Search</a>
+  <a class="button is-dark" href="{% url 'workout_create' %}">Add Workout</a>
+</form>
 <div class="gallery">
   {% for workout in workouts %}
-  <a href="">
+  <a href="{% url 'workout_detail' workout.pk %}">
     <div class="card">
       <div class="card-image">
         <figure class="image is-square">
-          <img src="{{Workout.image}}" alt="{{Workout.name}}" />
+          <img src="{{workout.img}}" alt="{{workout.name}}" />
         </figure>
       </div>
       <div class="card-header">
-        <p class="card-header-title">{{Workout.name}}</p>
+        <p class="card-header-title">{{workout.name}}</p>
       </div>
     </div>
   </a>
-	{% empty %}
-  <article class="message">
-    <div class="message-header">
-      <p>No Workout Available</p>
-    </div>
-  </article>
   {% endfor %}
 </div>
+
 {% endblock %}

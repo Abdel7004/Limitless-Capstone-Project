@@ -1,11 +1,12 @@
+from django.shortcuts import redirect
+from django.views import View # <- View class to handle requests
 from django.urls import reverse
 from django.shortcuts import render
-from django.views import View # <- View class to handle requests
 from django.http import HttpResponse # <- a class to handle sending a type of response
 #...
 from django.views.generic.base import TemplateView
 # import models
-from .models import Workout
+from .models import Workout, Set
 # This will import the class we are extending 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
@@ -61,3 +62,12 @@ class WorkoutDelete(DeleteView):
     model = Workout
     template_name = "workout_delete_confirmation.html"
     success_url = "/workouts/"
+
+class SetCreate(View):
+
+    def post(self, request, pk):
+        title = request.POST.get("title")
+        rep = request.POST.get("rep")
+        workout = Workout.objects.get(pk=pk)
+        Set.objects.create(title=title, rep=rep, workout=workout)
+        return redirect('workout_detail', pk=pk)

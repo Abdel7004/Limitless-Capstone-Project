@@ -6,7 +6,7 @@ from django.http import HttpResponse # <- a class to handle sending a type of re
 #...
 from django.views.generic.base import TemplateView
 # import models
-from .models import Workout, Set
+from .models import Workout, Set, Routine
 # This will import the class we are extending 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
@@ -16,6 +16,11 @@ from django.views.generic import DetailView
 # Here we will be creating a class called Home and extending it from the View class
 class Home(TemplateView):
     template_name = "home.html"
+    # Here we have added the Routines as context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["routines"] = Routine.objects.all()
+        return context
     
 #...
 class About(TemplateView):
@@ -71,3 +76,29 @@ class SetCreate(View):
         workout = Workout.objects.get(pk=pk)
         Set.objects.create(title=title, rep=rep, workout=workout)
         return redirect('workout_detail', pk=pk)
+
+class RoutineSetAssoc(View):
+
+    def get(self, request, pk, set_pk):
+        # get the query param from the url
+        assoc = request.GET.get("assoc")
+        if assoc == "remove":
+            # get the Routine by the id and
+            # remove from the join table the given Set_id
+            Routine.objects.get(pk=pk).sets.remove(set_pk)
+        if assoc == "add":
+            # get the Routine by the id and
+            # add to the join table the given Set_id
+            Routine.objects.get(pk=pk).sets.add(set_pk)
+        return redirect('home')
+
+
+class WorkoutDetail(DetailView):
+    model = Workout
+    template_name = "workout_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["routines"] = Routine.objects.all()
+        return context
+

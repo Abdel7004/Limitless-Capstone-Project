@@ -24,3 +24,12 @@ class Set(models.Model):
 
     def __str__(self):
         return self.title
+
+class Routine(models.Model):
+
+    title = models.CharField(max_length=150)
+    # this is going to create the many to many relationship and join table
+    sets = models.ManyToManyField(Set)
+
+    def __str__(self):
+        return self.title

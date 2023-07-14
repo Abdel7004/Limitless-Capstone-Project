@@ -3,21 +3,9 @@
 <div class="detail__img">
   <img src="{{workout.img}}" alt="{{workout.name}}" />
 </div>
-<div class="detail__name">
-  {% if workout.verified_workout %}
-  <div class="icon-text">
-    <span class="icon has-text-info">
-      <i class="fas fa-check-circle"></i>
-    </span>
-    <span>Verified</span>
-  </div>
-  {% endif %}
-  <h1 class="title">{{workout.name}}</h1>
-</div>
     <div class="detail__container">
         <!-- inside container -->
     <div class="detail__sets mb-5">
-
         <h3 class="title is-3">Sets</h3>
         {% for set in workout.sets.all %}
         <div class="set">
@@ -98,7 +86,7 @@
 
 <!-- before the for loop for sets -->
 
-    <!--  above about section  -->
+    <!--  above description section  -->
     <a href="{% url 'workout_update' workout.pk %}" class="button is-info">
         <span class="icon">
           <i class="fas fa-edit"></i>

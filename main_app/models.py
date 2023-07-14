@@ -20,7 +20,7 @@ class Set(models.Model):
 
     title = models.CharField(max_length=150)
     rep = models.CharField(max_length=150)
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="workouts")
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="sets")
 
     def __str__(self):
         return self.title

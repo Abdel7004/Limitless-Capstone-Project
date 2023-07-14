@@ -55,11 +55,11 @@ class WorkoutCreate(CreateView):
 class WorkoutDetail(DetailView):
     model = Workout
     template_name = "workout_detail.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["sets"] = Set.objects.all()
-        print (context)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["sets"] = Set.objects.all()
+    #     print (context)
+    #     return context
 
 class WorkoutUpdate(UpdateView):
     model = Workout

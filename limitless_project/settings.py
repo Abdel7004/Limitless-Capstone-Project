@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main_app', # our application here.
-    # 'first.apps.FirstConfig',
     'corsheaders',
 ]
 
@@ -88,11 +87,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': dj_database_url.config(
-    #     # Feel free to alter this value to suit your needs.
-    #     default='postgresql://postgres:postgres@localhost:5432/mysite',
-    #     conn_max_age=600
-    # )
     'default': dj_database_url.config(
         # Feel free to alter this value to suit your needs.
         conn_max_age=600,
